@@ -712,6 +712,7 @@
                 html += '<th></th>';
             }
 
+            // * add option
             var dateHtml = this.locale.titleMonthFormat === 'ja' ? 
                            calendar[1][1].format("YYYY") + '年' + this.locale.monthNames[calendar[1][1].month()] : 
                            this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
@@ -749,7 +750,6 @@
                 dateHtml = monthHtml + yearHtml;
             }
 
-            // * add option
             html += '<th colspan="5" class="month">' + dateHtml + '</th>';
             if ((!maxDate || maxDate.isAfter(calendar.lastDay)) && (!this.linkedCalendars || side == 'right' || this.singleDatePicker)) {
                 html += '<th class="next available"><span></span></th>';
