@@ -55,6 +55,9 @@
         this.alwaysShowCalendars = false;
         this.ranges = {};
 
+        // * add option
+        this.canOnlyStartDatePick = false;
+
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
             this.opens = 'left';
@@ -77,7 +80,10 @@
             customRangeLabel: 'Custom Range',
             daysOfWeek: moment.weekdaysMin(),
             monthNames: moment.monthsShort(),
-            firstDay: moment.localeData().firstDayOfWeek()
+            firstDay: moment.localeData().firstDayOfWeek(),
+
+            // * add option
+            titleMonthFormat: '',
         };
 
         this.callback = function() { };
@@ -158,6 +164,10 @@
                 var rangeHtml = elem.value;
                 this.locale.customRangeLabel = rangeHtml;
             }
+
+            // * add option
+            if (typeof options.locale.titleMonthFormat === 'string')
+              this.locale.titleMonthFormat = options.locale.titleMonthFormat;
         }
         this.container.addClass(this.locale.direction);
 
@@ -284,6 +294,11 @@
                 this.locale.daysOfWeek.push(this.locale.daysOfWeek.shift());
                 iterator--;
             }
+        }
+
+        // * add option
+        if (typeof options.canOnlyStartDatePick === 'boolean') {
+            this.canOnlyStartDatePick = options.canOnlyStartDatePick;
         }
 
         var start, end, range;
@@ -697,7 +712,10 @@
                 html += '<th></th>';
             }
 
-            var dateHtml = this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
+            // * add option
+            var dateHtml = this.locale.titleMonthFormat === 'ja' ? 
+                           calendar[1][1].format("YYYY") + '年' + this.locale.monthNames[calendar[1][1].month()] : 
+                           this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
 
             if (this.showDropdowns) {
                 var currentMonth = calendar[1][1].month();
@@ -1105,10 +1123,17 @@
         hide: function(e) {
             if (!this.isShowing) return;
 
-            //incomplete date selection, revert to last values
-            if (!this.endDate) {
-                this.startDate = this.oldStartDate.clone();
-                this.endDate = this.oldEndDate.clone();
+            // * add option
+            if (this.canOnlyStartDatePick) {
+                if (!this.endDate) {
+                   this.endDate = this.startDate;
+                }
+            } else {
+                //incomplete date selection, revert to last values
+                if (!this.endDate) {
+                    this.startDate = this.oldStartDate.clone();
+                    this.endDate = this.oldEndDate.clone();
+                }
             }
 
             //if a new date range was selected, invoke the user callback function
