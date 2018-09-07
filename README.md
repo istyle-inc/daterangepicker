@@ -1,9 +1,22 @@
+# 追加option
+Date Range Pickerをforkして以下optionを追加しました。
+
+| 追加option | 型 | 説明 |
+|---|---|---|
+| canOnlyStartDatePick    | boolean | end-dateが無い場合は、start-dateのみでシングルピックができるようにする※2 |
+| locale.titleMonthFormat | string  | 'M YYYY' を 'YYYY年 M月' にする※2 |
+
+- ※1: falseの場合、シングルピックは同じ日付を2度押すことで可能
+- ※2: 赤線の箇所    
+ ![titleMonthFormat](./doc_img/titleMonthFormat.png)
+
+
 # Date Range Picker
 
 ![Improvely.com](https://i.imgur.com/UTRlaar.png)
 
 This date range picker component creates a dropdown menu from which a user can
-select a range of dates. I created it while building the UI for [Improvely](http://www.improvely.com), 
+select a range of dates. I created it while building the UI for [Improvely](http://www.improvely.com),
 which needed a way to select date ranges for reports.
 
 Features include limiting the selectable date range, localizable strings and date formats,
